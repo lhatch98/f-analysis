@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 
 
-def analysis(fname, n):
+def analysis(fname, n, float_perc):
     """
     5 year stock analysis
     ex day data = ['Date', 'Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume\n']
@@ -10,9 +10,8 @@ def analysis(fname, n):
         five_yrs = [line.split(",") for line in stock_data]  # matrix of days
         del five_yrs[0]  # remove csv label row
 
-        closes = []
-        for day in five_yrs:
-            closes.append(float(day[4]))
+        closes = [float(day[4]) for day in five_yrs]
+        opens = [float(day[1]) for day in five_yrs]
 
         tot_buys = 0
         day_count = 0
@@ -21,6 +20,7 @@ def analysis(fname, n):
         prices = []
         pdifs = []
         avglist = []
+
         collect = False
 
         for i in closes[n:]:  # start checking on n
@@ -28,22 +28,30 @@ def analysis(fname, n):
             avg = sum(closes[ct:n + ct]) / n
             avglist.append(avg)
 
+            # pdif =
+
             if i > avglist[ct - 1]:
                 collect = True
                 prices.append(i)
                 day_count += 1
-
                 high = max(prices)
                 pdif = (i - high) / high
                 pdifs.append(pdif)
 
-            elif i < avg and collect:
-                collect = False
-                data_ar.append((day_count, prices, ct))
-                day_count = 0  # reset
-                prices = []  # reset
-                pdifs = []  # reset
-                tot_buys += 1
+            elif collect:
+                prices.append(i)
+                high = max(prices)
+                pdif = (i - high) / high
+                pdifs.append(pdif)
+                day_count += 1
+                if pdif <= -1*float_perc and collect or i < avg and collect:
+                    data_ar.append((day_count, prices, ct + n, pdifs))
+                    day_count = 0  # reset
+                    prices = []  # reset
+                    pdifs = []  # reset
+                    tot_buys += 1
+                    collect = False
+
             else:
                 pass
 
@@ -55,8 +63,8 @@ def analysis(fname, n):
 
         buys_for_plots = [i[1][0] for i in data_ar]
         sells_for_plots = [i[1][-1] for i in data_ar]
-        sell_times = [i[2] + n for i in data_ar]
-        buy_times = [i[2] - i[0] + n for i in data_ar]
+        sell_times = [i[2] for i in data_ar]
+        buy_times = [i[2] - i[0] for i in data_ar]
 
         plt.plot(taxis, closes, 'k-')
         ttaxis = taxis[n:]
@@ -73,4 +81,4 @@ def analysis(fname, n):
         return None
 
 
-analysis("fiveyr_data/SBUX.csv", 40)
+analysis("5yr_data/SBUX.csv", 40, 0.10)

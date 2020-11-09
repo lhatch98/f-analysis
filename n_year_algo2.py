@@ -8,7 +8,6 @@ class StockAnalysis:
         self.fname = fname
         self.pdif_threshold = pdif_threshold
 
-    # @classmethod
     def parseCSV(self):
         with open(self.fname, "r") as stock_data:
             n_yrs_data = [line.split(",") for line in stock_data]  # matrix of days
@@ -17,7 +16,6 @@ class StockAnalysis:
             closes = [float(day[4]) for day in n_yrs_data]
         return n_yrs_data, opens, closes
 
-    # @classmethod
     def computation(self, n_yrs_data, opens, closes):
         tot_buys = 0
         day_count = 0
@@ -67,7 +65,6 @@ class StockAnalysis:
 
         return data_ar, avglist, tot_buys
 
-    # @classmethod
     def plotting(self, data_ar, opens, closes, avglist, tot_buys):
         
 
@@ -142,7 +139,6 @@ if __name__ == "__main__":
     inst.plotting(data_arr, open_data, close_data, avg_arr, tot_buyins)
 
 # TODO:
-#   - update reademe for cli args
 #   - add plot legend and update plot labels
 #   - quantify profitablilty and print
 #   - add docstrings

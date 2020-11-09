@@ -1,6 +1,5 @@
 import matplotlib.pyplot as plt
 
-
 def analysis(fname, n, pdif_threshold):
     """
     stock trend analysis

@@ -11,7 +11,7 @@ Common safeguard paramaters include setting a loss threshold as a percent differ
 Supply any n-day average duration as your buy trigger, a percent difference threshold for selling, and any publicly available company stock history .csv. I used data from [Yahoo finance](https://finance.yahoo.com/lookup/) and my csv data parser method expects that format so best to use this source.
 
 ### cli arguments
-Run ```python3 f-analysis -h``` to see all possible arguments and their details. The ```-f``` flag required and is the file path to your data. The ```-n``` and ```-p``` flags are for the optional running average days and percent difference threshold which default to 40 and 10% respectively. 
+Run ```python3 n_year_algo2.py -h``` to see all possible arguments and their details. The ```-f``` flag required and is the file path to your data. The ```-n``` and ```-p``` flags are for the optional running average days and percent difference threshold which default to 40 and 10% respectively. 
 
 
 ## 📊 position/swing mindset modeling
